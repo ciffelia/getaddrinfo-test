@@ -1,11 +1,7 @@
 FROM alpine:3.20 as builder
 
-RUN apk add --no-cache build-base
+RUN apk add build-base strace
 
 COPY . .
 
-RUN gcc getaddrinfo.c -o getaddrinfo
-
-FROM alpine:3.20
-
-COPY --from=builder getaddrinfo /usr/local/bin/getaddrinfo
+RUN gcc getaddrinfo.c -o /usr/local/bin/getaddrinfo
