@@ -32,7 +32,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push image
         uses: docker/build-push-action@v6
         with:
           tags: |
@@ -43,14 +43,14 @@ jobs:
           cache-to: type=gha,mode=max
           push: ${{ github.ref == 'refs/heads/main' }}
 
-      - name: Build and push
+      - name: Export binaries
         uses: docker/build-push-action@v6
         with:
           target: binaries
           platforms: linux/amd64,linux/arm64
           outputs: bin
 
-      - name: Upload artifacts
+      - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
           path: bin
