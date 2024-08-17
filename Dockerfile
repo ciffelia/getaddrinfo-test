@@ -1,6 +1,4 @@
-FROM alpine:3.20 AS builder
-
-RUN apk add --no-cache build-base
+FROM gcc:14-bookworm AS builder
 
 COPY . .
 
@@ -10,8 +8,6 @@ FROM scratch AS binaries
 
 COPY --from=builder getaddrinfo /
 
-FROM alpine:3.20
+FROM debian:bookworm-slim
 
-RUN apk add --no-cache strace
-
-COPY --from=builder getaddrinfo /usr/local/bin/getaddrinfo
+COPY --from=builder getaddrinfo /usr/local/bin/
